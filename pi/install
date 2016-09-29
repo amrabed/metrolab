@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cp -r usr/local/metrolab /usr/local/metrolab
+
+# Install Metrolab service
+cp -r etc/init.d/metrolab /etc/init.d/metrolab
+update-rc.d metrolab defaults
+service metrolab start
