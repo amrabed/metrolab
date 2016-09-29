@@ -1,5 +1,5 @@
 import sys
-import pymysql.cursors
+import requests
 from threading import Timer
 from random import uniform
 from datetime import datetime
@@ -21,15 +21,16 @@ class Device:
 
     def record_data(self):
         data = self.read_sensors()
-        print(data)
-        connection = pymysql.connect('127.0.0.1', user='sensor', password='M3troL@b', db='metrolab')
-        sql = "INSERT INTO `Blacksburg` (`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`) VALUES (%s, %s, %s, %s, %s)"
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(sql, data)
-            connection.commit()
-        finally:
-            connection.close()
+        #print(data)
+        url = 'http://ultron.ncr.vt.edu:8080/sensor.php'
+        #headers = {'content-type': "application/x-www-form-urlencoded",'cache-control': "no-cache"}
+        query = 'INSERT INTO `Blacksburg` (`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`) VALUES {}'.format(data)
+        response = requests.post(url, data={'query':query})
+        #table = "Blacksburg"
+        #fields= "(`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`)"
+        #values= str(data)
+        #response = requests.post(url, data = {'table':data, 'fields':fields, 'values':values})
+    
 
 class Scheduler(object):
     def __init__(self, interval):
@@ -56,7 +57,7 @@ class Scheduler(object):
  
 def main(argv):
   try:
-    print("(Ozone, CarbonMonoxide, Temperature, Pressure, Humidity)")
+    #print("(Ozone, CarbonMonoxide, Temperature, Pressure, Humidity)")
     scheduler = Scheduler(int(argv))
   except KeyboardInterrupt:
     pass
