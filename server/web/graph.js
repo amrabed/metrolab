@@ -1,32 +1,20 @@
-var co = {
-  x: [1, 2, 3, 4],
-  y: [0, 0, 0, 0],
-  mode: 'scatter',
-  name: 'CO'
-};
+Plotly.d3.csv('data.csv', function(rows){
+columns = ['CO Level', 'Temperature', 'Pressure', 'Humidity'];
+function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+}
 
-var temperature = {
-  x: [1, 2, 3, 4],
-  y: [6, 15, 1, 29],
-  mode: 'scatter',
-  name: 'Temperature'
-};
+function getData(column, name, yaxis) {
+    return {
+      mode: 'lines',
+      x: unpack(rows, 'timestamp'),
+      y: unpack(rows, column),
+      name: name,
+      yaxis: yaxis
+    };
+}
 
-var pressure = {
-  x: [1, 2, 3, 4],
-  y: [16, 5, 11, 9],
-  mode: 'scatter',
-  name: 'Pressure'
-};
-
-var humidity = {
-  x: [1, 2, 3, 4],
-  y: [16, 1, 0, 9],
-  mode: 'scatter',
-  name: 'Humidity'
-};
-
-var layout_co = {
+var layout = {
   xaxis: {
     title: 'Timestamp',
     showgrid: false,
@@ -34,69 +22,35 @@ var layout_co = {
   },
   yaxis: {
     title: 'PPM',
-    showgrid: false,
-    zeroline: false
-  }};
-
-var layout_temp = {
-  xaxis: {
-    title: 'Timestamp',
-    showgrid: false,
-    zeroline: false
+    range: [0,1],
+    domain: [0.05, 0.25]
   },
-  yaxis: {
+  yaxis2: {
     title: 'C',
-    showgrid: false,
-    zeroline: false
-  }};
-var layout_pres = {
-  xaxis: {
-    title: 'Timestamp',
-    showgrid: false,
-    zeroline: false
+    zeroline: false,
+    domain: [0.3, 0.5]
   },
-  yaxis: {
-    title: 'hPA',
-    showgrid: false,
-    zeroline: false
-  }};
-var layout_humid = {
-  xaxis: {
-    title: 'Timestamp',
-    showgrid: false,
-    zeroline: false
+  yaxis3: {
+    title: 'Pa',
+    zeroline: false,
+    domain: [0.55, 0.75]
   },
-  yaxis: {
+  yaxis4: {
     title: '%',
-    showgrid: false,
-    zeroline: false
-  }};
-
-var data = [co, temperature, pressure, humidity];
-
-Plotly.newPlot('tester', data, layout_co);
-//Plotly.newPlot('temperature', temperature, layout_temp);
-//Plotly.newPlot('pressure', pressure, layout_pres);
-//Plotly.newPlot('humidity', humidity, layout_humid);
-
-
-Plotly.d3.json('https://plot.ly/~DanielCarrera/13.json', function(figure){
-  var trace = {
-    x: figure.data[0].x, y: figure.data[0].y, z: figure.data[0].z,
-    type: 'contour', autocolorscale: false,
-    colorscale: [[0,"rgb(  0,  0,  0)"],[0.3,"rgb(230,  0,  0)"],[0.6,"rgb(255,210,  0)"],[1,"rgb(255,255,255)"]],
-    reversescale: true, zmax: 2.5, zmin: -2.5
-  };
-  var layout = {
-    title: 'turbulence simulation',
-    xaxis: {title: 'radial direction', showline: true, mirror: 'allticks', ticks: 'inside'},
-    yaxis: {title: 'vertical direction', showline: true, mirror: 'allticks', ticks: 'inside'},
-    margin: {l: 40, b: 40, t: 60},
-    annotations: [{
-      showarrow: false,
-      text: 'Credit: Daniel Carrera',
-      x: 0, y: 0, xref: 'paper', yref: 'paper'
-    }]
+    zeroline: false,
+    domain: [0.8, 1]
+  },
+  legend: {
+    traceorder: "reversed"
   }
-  Plotly.newPlot('tester2', [trace], layout, {showLink: false});
+};
+
+
+var data = [getData('co', 'CO Level', 'y'),
+  getData('temperature', 'Temperature', 'y2'),
+  getData('pressure', 'Pressure', 'y3'),
+  getData('humidity', 'Humidity', 'y4')
+];
+
+Plotly.newPlot('graph', data, layout);
 });

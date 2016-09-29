@@ -6,4 +6,4 @@
 
 docker stop php
 docker rm php
-docker run -d -p 8080:80 --name php --link mysql -v ~amrabed/metrolab/web:/var/www/html php
+docker run -d -p 8080:80 --name php --link mysql -v ~amrabed/metrolab/server/web:/var/www/html php
