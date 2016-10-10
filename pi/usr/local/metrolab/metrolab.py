@@ -5,17 +5,19 @@ from random import uniform
 from datetime import datetime
 from BME280 import *
 from MQ7 import COSensor
+from ozone import OzoneSensor
 
 class Device:
     def __init__(self):
         self.weatherSensor = BME280(mode=BME280_OSAMPLE_8)
         self.coSensor = COSensor(23, 24)
+        self.ozoneSensor = OzoneSensor()
            
     def read_sensors(self):
         temperature = round(self.weatherSensor.read_temperature(), 5)
         pressure = round(self.weatherSensor.read_pressure(), 5)
         humidity = round(self.weatherSensor.read_humidity(), 5)
-        ozone = round(uniform(0.07, 0.09), 5)
+        ozone = round(self.ozoneSensor.read(), 5)
         co = round(self.coSensor.read(), 5)
         return (ozone, co, temperature, pressure, humidity)
 
