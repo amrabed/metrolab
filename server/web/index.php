@@ -18,7 +18,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<div id="graph" class="container" style="height: 800px;"></div>
+		<div id="graph" class="container" style="height: 1000px;"></div>
 		<div class="row"><?php include 'table.php';?></div>
 
 		<!-- BOOTSTRAP SCRIPTS -->

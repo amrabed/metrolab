@@ -1,5 +1,5 @@
 Plotly.d3.csv('data.csv', function(rows){
-columns = ['CO Level', 'Temperature', 'Pressure', 'Humidity'];
+columns = ['CO level', 'Ozone level', 'Temperature', 'Pressure', 'Humidity'];
 function unpack(rows, key) {
   return rows.map(function(row) { return row[key]; });
 }
@@ -23,19 +23,24 @@ var layout = {
   yaxis: {
     title: 'PPM',
     range: [0,1],
-    domain: [0.05, 0.25]
+    domain: [0, 0.15]
   },
   yaxis2: {
-    title: 'C',
+    title: 'PPM',
     zeroline: false,
-    domain: [0.3, 0.5]
+    domain: [0.2, 0.35]
   },
   yaxis3: {
-    title: 'Pa',
+    title: 'C',
     zeroline: false,
-    domain: [0.55, 0.75]
+    domain: [0.4, 0.55]
   },
   yaxis4: {
+    title: 'Pa',
+    zeroline: false,
+    domain: [0.6, 0.75]
+  },
+  yaxis5: {
     title: '%',
     zeroline: false,
     domain: [0.8, 1]
@@ -46,10 +51,11 @@ var layout = {
 };
 
 
-var data = [getData('co', 'CO Level', 'y'),
-  getData('temperature', 'Temperature', 'y2'),
-  getData('pressure', 'Pressure', 'y3'),
-  getData('humidity', 'Humidity', 'y4')
+var data = [getData('co', 'CO level', 'y'),
+  getData('ozone', 'Ozone level', 'y2'),
+  getData('temperature', 'Temperature', 'y3'),
+  getData('pressure', 'Pressure', 'y4'),
+  getData('humidity', 'Humidity', 'y5')
 ];
 
 Plotly.newPlot('graph', data, layout);
