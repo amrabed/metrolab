@@ -22,17 +22,19 @@ class Device:
         return (ozone, co, temperature, pressure, humidity)
 
     def record_data(self):
-        data = self.read_sensors()
-        #print(data)
-        url = 'http://ultron.ncr.vt.edu:8080/sensor.php'
-        #headers = {'content-type': "application/x-www-form-urlencoded",'cache-control': "no-cache"}
-        query = 'INSERT INTO `Blacksburg` (`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`) VALUES {}'.format(data)
-        response = requests.post(url, data={'query':query})
-        #table = "Blacksburg"
-        #fields= "(`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`)"
-        #values= str(data)
-        #response = requests.post(url, data = {'table':data, 'fields':fields, 'values':values})
-    
+        try:
+            data = self.read_sensors()
+            #print(data)
+            url = 'http://ultron.ncr.vt.edu:8080/sensor.php'
+            #headers = {'content-type': "application/x-www-form-urlencoded",'cache-control': "no-cache"}
+            query = 'INSERT INTO `Blacksburg` (`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`) VALUES {}'.format(data)
+            response = requests.post(url, data={'query':query})
+            #table = "Blacksburg"
+            #fields= "(`ozone`, `carbonMonoxide`, `temperature`, `pressure`, `humidity`)"
+            #values= str(data)
+            #response = requests.post(url, data = {'table':data, 'fields':fields, 'values':values})
+        except Exception as e:
+            print(e)
 
 class Scheduler(object):
     def __init__(self, interval):
