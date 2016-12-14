@@ -15,10 +15,8 @@ class Device:
            
     def read_sensors(self):
         ozone, temperature, humidity = self.ozoneSensor.read()
-        temperature = round(self.weatherSensor.read_temperature(), 5)
-        pressure = round(self.weatherSensor.read_pressure(), 5)
-        humidity = round(self.weatherSensor.read_humidity(), 5)
-        co = round(self.coSensor.read(), 5)
+        temperature, pressure, humidity = self.weatherSensor.read()
+        co = self.coSensor.read()
         return (ozone, co, temperature, pressure, humidity)
 
     def record_data(self):

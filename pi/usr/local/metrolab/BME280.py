@@ -212,3 +212,9 @@ class BME280(object):
             h = 0
         return h
 
+    ## Added by Amr Abed for consistency
+    def read(self):
+        temperature = self.read_temperature()
+        pressure = self.read_pressure()
+        humidity = self.read_humidity()
+        return (temperature, pressure, humidity)
