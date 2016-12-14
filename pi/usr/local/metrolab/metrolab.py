@@ -11,13 +11,13 @@ class Device:
     def __init__(self):
         self.weatherSensor = BME280(mode=BME280_OSAMPLE_8)
         self.coSensor = COSensor(23, 24)
-        self.ozoneSensor = OzoneSensor()
+        self.ozoneSensor = OzoneSensor('/dev/ttyUSB0')
            
     def read_sensors(self):
+        ozone, temperature, humidity = self.ozoneSensor.read()
         temperature = round(self.weatherSensor.read_temperature(), 5)
         pressure = round(self.weatherSensor.read_pressure(), 5)
         humidity = round(self.weatherSensor.read_humidity(), 5)
-        ozone = round(self.ozoneSensor.read(), 5)
         co = round(self.coSensor.read(), 5)
         return (ozone, co, temperature, pressure, humidity)
 
