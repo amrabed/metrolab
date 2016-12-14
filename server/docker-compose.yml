@@ -1,0 +1,21 @@
+version: "2"
+
+services: 
+  web:
+    image: amrabed/php
+    container_name: php 
+    ports: 
+      - "8080:80" 
+    links:
+      - db
+    restart: always
+    volumes:
+      - ~/metrolab/server/web:/var/www/html
+  db:
+    image: mysql
+    container_name: mysql
+    restart: always
+    volumes: 
+      - ~/metrolab/data/mysql:/var/lib/mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd
