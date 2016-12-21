@@ -1,8 +1,15 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 
 cp -r usr/local/metrolab /usr/local
+
+# Install Adafruit GPIO library
+git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+python3 Adafruit_Python_GPIO/setup.py install
+rm -rf Adafruit_Python_GPIO
 
 # Install Metrolab service
 cp etc/init.d/metrolab /etc/init.d
 update-rc.d metrolab defaults
 service metrolab start
+
